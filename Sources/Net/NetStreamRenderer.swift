@@ -18,6 +18,7 @@ protocol NetStreamRenderer: class {
 
     func render(image: CIImage?)
     func attachStream(_ stream: NetStream?)
+    func cameraRawStream(_ buffer:CVImageBuffer)
 }
 
 extension NetStreamRenderer where Self: NetStreamRendererView {

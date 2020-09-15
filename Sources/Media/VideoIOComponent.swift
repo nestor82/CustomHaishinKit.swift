@@ -334,6 +334,11 @@ final class VideoIOComponent: IOComponent {
             if connection.isVideoMirroringSupported {
                 connection.isVideoMirrored = isVideoMirrored
             }
+            
+            // 전면 카메라 기본적으로 미러효과 미적용상태로 초기화.
+            if camera.position == .front && connection.isVideoMirroringSupported {
+                connection.isVideoMirrored = true
+            }
             #if os(iOS)
             connection.preferredVideoStabilizationMode = preferredVideoStabilizationMode
             #endif
@@ -421,6 +426,8 @@ extension VideoIOComponent {
         }
 
         if renderer != nil || !effects.isEmpty {
+            renderer?.cameraRawStream(buffer)
+            
             let image: CIImage = effect(buffer, info: sampleBuffer)
             extent = image.extent
             if !effects.isEmpty {

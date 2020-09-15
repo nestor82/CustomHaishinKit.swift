@@ -50,6 +50,9 @@ open class MTHKView: MTKView, NetStreamRenderer {
         }
         currentStream = stream
     }
+    
+    func cameraRawStream(_ buffer: CVImageBuffer) {
+    }
 }
 
 @available(iOS 9.0, *)

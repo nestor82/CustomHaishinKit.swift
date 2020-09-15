@@ -98,6 +98,8 @@ extension HKView: NetStreamRenderer {
     // MARK: NetStreamRenderer
     func draw(image: CIImage?) {
     }
+    func cameraRawStream(_ buffer:CVImageBuffer) {
+    }
 }
 
 #endif

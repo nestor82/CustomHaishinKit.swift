@@ -52,6 +52,11 @@ open class GLHKView: GLKView, NetStreamRenderer {
         }
         currentStream = stream
     }
+    
+    var unEffectCameraCgImage : CGImage?
+    open func getCgImageWithoutEffect() -> CGImage? {
+        return unEffectCameraCgImage
+    }
 }
 
 extension GLHKView: GLKViewDelegate {
@@ -74,6 +79,19 @@ extension GLHKView: GLKViewDelegate {
 
         VideoGravityUtil.calculate(videoGravity, inRect: &inRect, fromRect: &fromRect)
         currentStream?.mixer.videoIO.context?.draw(displayImage, in: inRect, from: fromRect)
+    }
+    
+    func cameraRawStream(_ buffer: CVImageBuffer) {
+        if #available(iOS 9.0, *) {
+            let image = CIImage(cvImageBuffer: buffer)
+            unEffectCameraCgImage = convertCIImageToCGImage(inputImage: image)
+        } else {
+            // Fallback on earlier versions
+        }
+        
+    }
+    open func convertCIImageToCGImage(inputImage: CIImage) -> CGImage? {
+        return currentStream?.mixer.videoIO.context?.createCGImage(inputImage, from: inputImage.extent)
     }
 }
 
